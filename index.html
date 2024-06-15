@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scraped Data</title>
+</head>
+
+<body>
+    <h1>Scraped Data</h1>
+    <div id="data-container"></div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            fetch("/v1")
+                .then(response => response.json())
+                .then(data => {
+                    const container = document.getElementById("data-container");
+                    data.forEach(item => {
+                        const div = document.createElement("div");
+                        div.innerHTML = `
+                            <h2>${item.name}</h2>
+                            <a href="${item.url}">Link</a>
+                            <img src="${item.img}" alt="${item.name}">
+                        `;
+                        container.appendChild(div);
+                    });
+                })
+                .catch(err => {
+                    console.error("Error fetching data:", err);
+                });
+        });
+    </script>
+</body>
+
+</html>
